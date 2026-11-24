@@ -5,8 +5,7 @@ Individual assignment: survey-paper short story on generative AI.
 |------|------|
 | Medium article | `https://medium.com/@kalharpatel2002/the-model-is-only-half-the-agent-what-six-research-surveys-reveal-about-the-future-of-ai-agents-22816f6da053` |
 | SlideShare deck | `https://docs.google.com/presentation/d/18FEoJzY3JHtI7TLu8ED2uvXkNrht5Zg8/edit?usp=drivesdk&ouid=105334028618397780218&rtpof=true&sd=true` |
-| YouTube video 1 | ``TODO |
-| YouTube video 2 | `TODO` |
+| YouTube video 1 |https://youtu.be/47dD_ZCoBHQ?is=7kR8eHJqIHXAJStB|
 
 ## Topic
 How the 2026 survey literature reframes LLM agents as **model + harness**, and what it says about evaluation, safety/isolation, assurance and operations.
