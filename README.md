@@ -1,366 +1,307 @@
-The Model Is Only Half the Agent: Agent Engineering, Evaluation, and Safety in 2026
+# The Model Is Only Half the Agent: Agent Engineering, Evaluation, and Safety in 2026
 
-A Research Survey and Technical Synthesis of Six Studies on LLM-Based Agent Systems
+### A Research Survey and Technical Synthesis of Six Studies on LLM-Based Agent Systems
 
-Individual Assignment | Generative AI | Research Survey | 2026
+**Individual Assignment | Generative AI | Research Survey | 2026**
 
-Research Areas: Large Language Models, Agentic AI, Harness Engineering, LLM Evaluation, AI Safety, Trustworthy AI, Multi-Agent Systems, AIOps, and Software Engineering
-
----
-
-1. Project Overview
-
-Large Language Models (LLMs) have evolved significantly from systems primarily designed to answer questions and generate text into autonomous and semi-autonomous agents capable of planning, reasoning, interacting with external tools, executing code, maintaining memory, and completing complex tasks over extended periods.
-
-However, this evolution raises an important engineering question:
-
-Is the performance of an AI agent determined primarily by the underlying language model, or by the system designed around that model?
-
-This project investigates that question through a detailed comparative analysis of six research surveys published or formally updated during 2026.
-
-The central argument emerging from these surveys is that an AI agent should not be evaluated as an isolated language model. Instead, it should be understood as an integrated engineering system consisting of a foundation model and an execution harness.
-
-The foundation model provides capabilities such as reasoning, language understanding, planning, and decision-making. The execution harness determines how these capabilities interact with real-world environments through tool execution, context management, memory, feedback, verification, and operational constraints.
-
-The effectiveness of an agent therefore depends not only on the intelligence of the model but also on how reliably its surrounding infrastructure converts reasoning into successful actions.
-
-This repository presents a unified synthesis of six surveys covering the following areas:
-
-1. Agent Engineering: How execution harnesses and runtime architectures transform language models into task-completing agents.
-2. Agent Evaluation: Why traditional language-model benchmarks are insufficient for measuring multi-step autonomous behavior.
-3. Trustworthy Agentic AI: How safety, robustness, privacy, and system security become more challenging as agents gain autonomy.
-4. Isolation-Based Safety: Why separating trust boundaries is essential for preventing unsafe interactions between agents, tools, and environments.
-5. Critical-System Assurance: How agent systems can become verifiable, auditable, and sufficiently reliable for high-consequence applications.
-6. Agentic Operations: How these principles apply to network operations, incident management, infrastructure automation, and AIOps.
-
-Rather than treating these topics independently, this project identifies the connections between them and develops a unified perspective on reliable agent engineering.
-
-The outcome is a research-driven technical story presented through a Medium article, an accompanying slide presentation, and a recorded video explanation.
+**Research Areas:** Large Language Models, Agentic AI, Harness Engineering, LLM Evaluation, AI Safety, Trustworthy AI, Multi-Agent Systems, AIOps, and Software Engineering
 
 ---
 
-2. Published Project Resources
+## 1. Project Overview
 
-The major deliverables associated with this research are available through the following links.
+Large Language Models (LLMs) have evolved from systems primarily designed to answer questions and generate text into autonomous and semi-autonomous agents capable of planning, reasoning, interacting with external tools, executing code, maintaining memory, and completing complex tasks over extended periods.
 
-Deliverable| Description| Access
-Medium Article| Detailed research story synthesizing six surveys on agent engineering, evaluation, and safety| "Read on Medium" (https://medium.com/@kalharpatel2002/the-model-is-only-half-the-agent-what-six-research-surveys-reveal-about-the-future-of-ai-agents-22816f6da053)
-Presentation| Visual explanation of model–harness architecture, agent performance, safety mechanisms, and the proposed engineering framework| "View Presentation" (https://docs.google.com/presentation/d/18FEoJzY3JHtI7TLu8ED2uvXkNrht5Zg8/edit?usp=drivesdk&ouid=105334028618397780218&rtpof=true&sd=true)
-YouTube Video| Recorded explanation of the research findings and their engineering implications| "Watch on YouTube" (https://youtu.be/47dD_ZCoBHQ?is=7kR8eHJqIHXAJStB)
-Research References| Original academic surveys used in this project| "Jump to References" (#16-references)
+This project investigates a central engineering question: **Is the performance of an AI agent determined primarily by the underlying language model, or by the system designed around that model?**
 
-Suggested Reading Order
+Through a comparative synthesis of six 2026 research surveys, the project argues that an agent should be understood as an integrated system consisting of a **foundation model and an execution harness**. The model supplies reasoning and decision-making capabilities; the harness coordinates observations, context, tool use, state, verification, and governance.
 
-Readers unfamiliar with agent engineering can begin with the Medium article for an accessible explanation of the research. The presentation provides a more visual treatment of the architectural concepts, benchmark comparisons, and safety challenges.
+The research connects six complementary areas:
 
-The reference section links to the original academic publications for readers who want to examine the technical taxonomies, experimental evidence, and proposed research directions.
+1. **Agent engineering:** How harnesses transform language models into task-completing systems.
+2. **Agent evaluation:** Why single-response benchmarks are insufficient for multi-step autonomy.
+3. **Trustworthy agentic AI:** How autonomy creates safety, robustness, privacy, and security challenges.
+4. **Isolation-based safety:** How trust boundaries reduce unsafe interactions among agents, tools, and environments.
+5. **Critical-system assurance:** How autonomous systems can be verified, audited, and constrained.
+6. **Agentic operations:** How these ideas apply to network operations, incident management, and AIOps.
+
+The deliverables include a Medium article, a slide presentation, and a recorded video explanation.
 
 ---
 
-3. Research Motivation
+## 2. Published Project Resources
 
-3.1 From Language Generation to Autonomous Task Completion
+| Deliverable | Description | Access |
+|---|---|---|
+| Medium Article | Research story synthesizing six surveys | [Read on Medium](https://medium.com/@kalharpatel2002/the-model-is-only-half-the-agent-what-six-research-surveys-reveal-about-the-future-of-ai-agents-22816f6da053) |
+| Presentation | Visual explanation of model–harness architecture, evaluation, safety, and operations | [View Presentation](https://docs.google.com/presentation/d/18FEoJzY3JHtI7TLu8ED2uvXkNrht5Zg8/edit?usp=drivesdk&ouid=105334028618397780218&rtpof=true&sd=true) |
+| YouTube Video | Recorded explanation of the research findings | [Watch on YouTube](https://youtu.be/47dD_ZCoBHQ?is=7kR8eHJqIHXAJStB) |
+| Research References | Original academic publications | [Jump to References](#16-references) |
 
-Traditional LLM applications generally follow a relatively straightforward interaction pattern:
+Readers can start with the Medium article, use the presentation for architectural diagrams and benchmark comparisons, and consult the papers for primary technical detail.
 
+---
+
+## 3. Research Motivation
+
+### 3.1 From Language Generation to Autonomous Task Completion
+
+A traditional LLM interaction often resembles:
+
+```text
 User Input → Language Model → Generated Response
+```
 
-The model receives a prompt and produces an answer. Its performance is typically measured through answer accuracy, reasoning quality, factual correctness, or instruction-following ability.
+Modern agents operate through an iterative cycle:
 
-Modern agentic systems operate differently.
-
-An autonomous coding agent, for example, may need to inspect a repository, locate a defect, modify source code, execute tests, interpret failures, revise its implementation, and determine whether the task has been completed successfully.
-
-An infrastructure operations agent may need to inspect telemetry, identify a service degradation, examine system logs, propose a configuration change, simulate the change, and obtain authorization before deployment.
-
-These tasks cannot be reliably completed through a single model invocation.
-
-Instead, they require a continuous interaction cycle:
-
+```text
 Observe → Reason → Plan → Act → Verify → Update State → Repeat
+```
 
-Each step introduces engineering decisions that are external to the foundation model itself.
+For example, a coding agent may inspect a repository, identify a defect, edit files, run tests, interpret failures, and revise its solution. An infrastructure agent may inspect telemetry, investigate service degradation, propose a configuration change, validate the change, and request authorization before deployment.
 
-These decisions include:
+Such tasks require answers to engineering questions that cannot be settled by model intelligence alone: Which information should be retrieved? What belongs in the context window? Which tools are authorized? When should the agent retry, stop, or escalate? How is success verified? How are unsafe actions prevented?
 
-- Which information should be retrieved from the environment?
-- How much previous context should be retained?
-- Which tools should the agent be allowed to call?
-- How should execution failures be detected?
-- When should an agent retry or revise its plan?
-- Which actions require human authorization?
-- How should unsafe instructions or external data be isolated?
-- How can the system determine whether the final outcome is correct?
+### 3.2 Why a Stronger Model Is Not Always Enough
 
-Consequently, the research focus is shifting from improving standalone model capabilities toward engineering the complete agent system.
+An agent can fail because it retrieves irrelevant context, invokes the wrong tool, loses intermediate state, repeats an unsuccessful action, or incorrectly declares completion. Better reasoning helps, but robust execution also depends on infrastructure that supplies feedback, preserves evidence, and enforces restrictions.
 
-3.2 Why Larger Models Are Not Always Sufficient
-
-Improving model quality is valuable, but it does not automatically resolve every limitation encountered during autonomous task execution.
-
-An agent may fail because it retrieves incorrect information, uses an inappropriate tool, loses important context, repeats an unsuccessful action, or incorrectly assumes that its task is finished.
-
-Even a capable language model can produce unreliable outcomes when its runtime environment does not provide adequate feedback and verification.
-
-The surveys examined in this project suggest that model improvements and harness improvements are complementary.
-
-A stronger model may make better decisions, while a better harness can improve the quality of observations, constrain actions, preserve relevant context, and detect mistakes.
-
-The central research question is therefore not simply which language model is strongest, but which combination of model, harness, evaluation methodology, and operational safeguards produces dependable task completion.
+**The central question is therefore not merely which model is strongest, but which combination of model, harness, evaluation methodology, and safeguards produces dependable task completion.**
 
 ---
 
-4. Research Objectives
+## 4. Research Objectives
 
-The primary objective of this project is to investigate the engineering foundations required to build reliable LLM-based agents.
+The project addresses five questions:
 
-The study addresses several interconnected questions.
-
-4.1 Understanding Agent Architecture
-
-How do modern agent systems differ from conventional LLM applications?
-
-This includes examining execution loops, external tool interfaces, context management, persistent state, and the relationship between model reasoning and environmental feedback.
-
-4.2 Investigating Harness Engineering
-
-What responsibilities should be handled by the execution infrastructure surrounding an LLM?
-
-The project examines how observation, planning control, action execution, state management, and verification interact to support long-running tasks.
-
-4.3 Evaluating Agent Performance
-
-Why can the same foundation model achieve different results under different agent scaffolds?
-
-This objective focuses on the role of benchmark design, execution environments, testing mechanisms, and evaluation procedures.
-
-4.4 Understanding Trustworthiness
-
-What risks emerge when agents acquire the ability to access tools, modify files, communicate with other agents, or interact with external environments?
-
-The study considers safety, privacy, robustness, prompt injection, tool misuse, and the propagation of failures across system boundaries.
-
-4.5 Connecting Research to Practical Deployment
-
-How can theoretical research on agent architecture and trustworthiness guide the engineering of production systems?
-
-The project explores practical implications for software development, infrastructure management, research workflows, and other high-consequence environments.
+1. **Architecture:** How do execution loops, tools, context, and persistent state turn an LLM into an agent?
+2. **Harness engineering:** Which responsibilities belong in the runtime system rather than the model prompt?
+3. **Evaluation:** Why do systems built on similar models produce different benchmark outcomes?
+4. **Trustworthiness:** How do prompt injection, tool misuse, privacy risks, and failure propagation change under autonomy?
+5. **Deployment:** What additional assurance and operational controls are needed in real-world environments?
 
 ---
 
-5. Research Methodology and Paper Selection
+## 5. Research Methodology and Paper Selection
 
-5.1 Research Approach
+### 5.1 Approach
 
-This project uses a qualitative, comparative literature-synthesis methodology.
+This is a **qualitative comparative literature synthesis**, not a new benchmark experiment or an exhaustive systematic review. Six surveys were chosen for complementary coverage of architecture, evaluation, safety, isolation, assurance, and operations. Each was analyzed for its central question, taxonomy, technical contributions, practical implications, and research gaps.
 
-Six research surveys were selected because they address complementary aspects of LLM-based agent development.
+| Theme | Guiding Question |
+|---|---|
+| Architecture | How should agent systems be constructed? |
+| Evaluation | How should capabilities and failures be measured? |
+| Safety | How should dangerous interactions be prevented? |
+| Assurance | How can trustworthy behavior be evidenced? |
+| Operations | How can autonomy be managed in deployed environments? |
 
-The papers were examined with particular attention to their research questions, proposed taxonomies, architectural frameworks, evaluation approaches, security considerations, and identified research gaps.
+### 5.2 Publication Window and Nuances
 
-The objective was not merely to summarize each paper independently.
+The assignment focuses on surveys from approximately mid-May to mid-November 2026. Most selected preprints appeared in May–July 2026. The evaluation survey had an earlier preprint but appeared in peer-reviewed **Findings of ACL 2026** in July. The isolation survey later appeared in **Findings of EMNLP 2026**. The NetOps/AIOps survey was initially submitted on May 12 and revised on June 15, 2026.
 
-Instead, the analysis sought to identify common patterns and relationships across the literature and explain how they contribute to a coherent understanding of agent engineering.
+### 5.3 Selected Papers
 
-The research was organized around five themes:
-
-Research Theme| Main Question
-Architecture| How should agent systems be constructed?
-Evaluation| How should their capabilities and failures be measured?
-Safety| How should dangerous interactions be prevented?
-Assurance| How can the system provide evidence of trustworthy behavior?
-Operations| How can agent autonomy be managed in real environments?
-
-The resulting synthesis connects these themes into a common engineering perspective.
-
-5.2 Publication Window
-
-The assignment focuses on recent survey literature from approximately the three- to six-month period preceding November 2026.
-
-Most papers were initially published between May and July 2026.
-
-There are several relevant publication-history distinctions:
-
-- The agent evaluation survey appeared as an earlier arXiv preprint but was published in the peer-reviewed Findings of ACL 2026 proceedings in July 2026.
-- The isolation survey was submitted to arXiv in July 2026 and later appeared in Findings of EMNLP 2026 in October.
-- The NetOps/AIOps survey was initially submitted on May 12, 2026, and received an updated second version on June 15, 2026.
-
-These distinctions are important because a paper's initial preprint date, revision date, and formal publication date are not necessarily identical.
-
-5.3 Selected Research Papers
-
-No.| Paper| Authors| Publication Information| Research Focus
-1| From Question Answering to Task Completion: A Survey on Agent System and Harness Design| Guo et al.| arXiv:2606.20683, June 14, 2026| Agent systems, harness engineering, runtime design
-2| A Survey on Evaluation of LLM-based Agents| Yehudai et al.| Findings of ACL 2026, July 2026| Agent benchmarks, evaluation dimensions, frameworks
-3| Towards Trustworthy Agentic AI| Qi et al.| arXiv:2605.23989, May 17, 2026| Safety, robustness, privacy, system security
-4| Isolation as a First-Class Principle for LLM-Agent System Safety| Jing et al.| arXiv:2607.12406, July 14, 2026; Findings of EMNLP 2026| Isolation boundaries and system-level safety
-5| Engineering Trustworthy Agentic AI for Critical Systems| Al-Refai et al.| arXiv:2607.18548, July 20, 2026| Critical systems, verification, assurance
-6| Large Language Models for Agentic NetOps and AIOps| Bilal et al.| arXiv:2605.12729, revised June 15, 2026| Autonomous operations, reliability, governance
-
-5.4 Scope of the Survey
-
-The work primarily investigates the software-engineering and systems-design aspects of LLM agents.
-
-It does not attempt to provide an exhaustive review of every agent architecture, benchmark, memory mechanism, or training method introduced during 2026.
-
-Instead, it prioritizes six complementary surveys that collectively explain how intelligent agent behavior can be translated into reliable, observable, and controlled execution.
-
-This is a thematic literature synthesis rather than a formal systematic review or a new experimental benchmark study.
+| # | Paper | Venue / Identifier | Main Focus |
+|---|---|---|---|
+| 1 | *From Question Answering to Task Completion: A Survey on Agent System and Harness Design* — Guo et al. | [arXiv:2606.20683](https://arxiv.org/abs/2606.20683) | Agent architecture and harness engineering |
+| 2 | *A Survey on Evaluation of LLM-based Agents* — Yehudai et al. | [Findings of ACL 2026](https://aclanthology.org/2026.findings-acl.1330/) | Evaluation taxonomies and frameworks |
+| 3 | *Towards Trustworthy Agentic AI* — Qi et al. | [arXiv:2605.23989](https://arxiv.org/abs/2605.23989) | Safety, robustness, privacy, security |
+| 4 | *Isolation as a First-Class Principle for LLM-Agent System Safety* — Jing et al. | [arXiv:2607.12406](https://arxiv.org/abs/2607.12406) | Isolation and trust boundaries |
+| 5 | *Engineering Trustworthy Agentic AI for Critical Systems* — Al-Refai et al. | [arXiv:2607.18548](https://arxiv.org/abs/2607.18548) | Assurance and critical systems |
+| 6 | *Large Language Models for Agentic NetOps and AIOps* — Bilal et al. | [arXiv:2605.12729](https://arxiv.org/abs/2605.12729) | Operational reliability and governance |
 
 ---
 
-6. Detailed Review of the Six Surveys
+## 6. Detailed Review of the Six Surveys
 
-Paper 1: From Question Answering to Task Completion — Agent System and Harness Design
+### 6.1 Guo et al. — From Question Answering to Task Completion
 
-Authors: Jianyuan Guo et al.
-Publication: June 14, 2026
-Reference: "arXiv:2606.20683" (https://arxiv.org/abs/2606.20683)
+**Paper:** https://arxiv.org/abs/2606.20683
 
-This survey forms the architectural foundation of the project.
+This survey supplies the project's architectural foundation: agent performance emerges from the interaction between a model and its execution harness. It describes four broad engineering paradigms:
 
-Its central contribution is the idea that an agent should be understood as a foundation model integrated with an execution harness.
+1. **Prompt engineering:** Structured instructions, roles, and reasoning prompts influence model behavior but provide limited support for persistent execution.
+2. **Workflow and context engineering:** Retrieval, pipelines, tool integrations, and context selection organize tasks beyond one prompt.
+3. **Harness engineering:** Reusable runtime infrastructure manages observation, tools, state, verification, and recovery across multiple steps.
+4. **Agent-native training and co-evolution:** Models and harnesses are jointly adapted instead of optimized in isolation.
 
-The language model supplies the reasoning engine, but the harness coordinates how that reasoning is translated into actions.
+The paper's benchmark discussion is particularly useful because reported coding-agent results vary substantially across scaffolds. The implication is that model-only comparisons do not fully describe deployed agent capability.
 
-The survey identifies four major paradigms in the evolution of agent engineering:
+**Connection to this project:** Establishes the model–harness perspective used to interpret all five remaining surveys.
 
-1. Prompt Engineering
+### 6.2 Yehudai et al. — Evaluation of LLM-Based Agents
 
-Early agent systems primarily relied on carefully constructed prompts to influence model behavior.
+**Paper:** https://aclanthology.org/2026.findings-acl.1330/
 
-Techniques such as role instructions, chain-of-thought prompting, and structured output formats improved reasoning and task execution without fundamentally changing the surrounding infrastructure.
+Traditional benchmarks evaluate isolated answers, while agents generate sequences of decisions, observations, and tool calls. An agent can produce plausible text without actually completing a task; a coding agent can generate syntactically valid code that fails tests; a web agent can navigate correctly but fail to finish a transaction.
 
-However, prompt engineering alone provided limited support for persistent state, complex tool interactions, and reliable error recovery.
+The survey organizes evaluation through five perspectives: **core agent capabilities, application-specific benchmarks, generalist-agent evaluation, benchmark dimensions, and evaluation frameworks/tools**.
 
-2. Workflow and Context Engineering
+The distinction between **outcome quality** and **process quality** is especially important. Two agents may both succeed, yet differ dramatically in latency, tool calls, retries, cost, and risk. Meaningful evaluation therefore requires more than a binary pass/fail score.
 
-The next stage introduced structured pipelines, external retrieval systems, tool integrations, and context-management techniques.
+**Connection to this project:** Provides the measurement layer for assessing whether harness changes produce genuine system improvements.
 
-These approaches made it possible to organize complex tasks into smaller operations and provide models with relevant information at different stages.
+### 6.3 Qi et al. — Towards Trustworthy Agentic AI
 
-Nevertheless, static workflows were often insufficient for dynamic tasks where the correct sequence of actions could not be determined in advance.
+**Paper:** https://arxiv.org/abs/2605.23989
 
-3. Harness Engineering
+Autonomy creates risks beyond inaccurate text generation. Agents may interact with external files, APIs, memories, and execution environments, so an incorrect decision can become a consequential action.
 
-Harness engineering focuses on building a reusable execution environment capable of coordinating agent behavior over multiple steps.
+The survey examines trustworthiness through **safety and robustness** as well as **privacy and system security**. Important risks include misleading environmental observations, unsafe planning, sensitive-data exposure, and malicious instructions introduced through external content.
 
-A well-designed harness provides tool interfaces, action control, memory handling, observation mechanisms, validation procedures, and recovery strategies.
+A critical challenge is **trajectory-level failure**: unsafe behavior may develop gradually. An agent can begin with legitimate steps, incorporate compromised information, and later perform an inappropriate action. Inspecting only the final answer may miss where the failure originated.
 
-The key idea is that successful autonomy depends on the runtime infrastructure as well as the reasoning model.
+**Connection to this project:** Demonstrates why the harness must support monitoring, security controls, and verification throughout execution.
 
-4. Agent-Native Training and Co-Evolution
+### 6.4 Jing et al. — Isolation as a First-Class Principle
 
-The most advanced paradigm investigates how models and execution harnesses can be designed and improved together.
+**Paper:** https://arxiv.org/abs/2607.12406  
+**Peer-reviewed version:** https://aclanthology.org/2026.findings-emnlp.976/
 
-Rather than treating the harness as a fixed wrapper, the model and its runtime environment are considered interdependent components.
+This survey treats isolation as an architectural requirement rather than an optional safety feature. Its central concern is that systems routinely combine information and operations with different levels of trust.
 
-Training objectives, evaluation settings, tool interfaces, and execution mechanisms may evolve together to improve overall agent performance.
+Five boundaries organize the analysis:
 
-Main Finding
+1. **User–agent:** Distinguish legitimate instructions from untrusted material.
+2. **Agent–tool:** Restrict available capabilities and validate tool requests.
+3. **Agent–execution:** Separate proposed actions from privileged execution environments.
+4. **Agent–agent:** Control delegation and information propagation between agents.
+5. **System–environment:** Treat external observations and retrieved content according to their trust level.
 
-Agent performance emerges from the interaction between the model, execution harness, task characteristics, and evaluation environment.
+The central engineering lesson is that telling an LLM to behave safely cannot replace enforceable permissions, sandboxing, validation, and separation of authority.
 
-The survey also presents evidence that different harness configurations can produce substantial differences in task-completion performance, even when the underlying model family remains the same.
+**Connection to this project:** Shows how the harness can enforce boundaries that model-level instructions alone cannot guarantee.
 
-Importance to This Project
+### 6.5 Al-Refai et al. — Engineering Trustworthy Agentic AI for Critical Systems
 
-This paper provides the central model–harness perspective around which the remaining surveys are organized.
+**Paper:** https://arxiv.org/abs/2607.18548
 
-It explains how agents are built and establishes the architectural foundation for studying their evaluation, safety, and operation.
+High-consequence applications require more than strong average benchmark performance. The survey examines trustworthiness in environments where incorrect decisions may affect infrastructure, physical processes, or essential services.
 
----
+Its assurance concerns include **safety and constraint satisfaction, robustness and reliability, transparency and interpretability, accountability and auditability, and privacy and security**.
 
-Paper 2: A Survey on Evaluation of LLM-based Agents
+A useful takeaway is **graded assurance**: verification and oversight should reflect the consequences of failure. Drafting documentation and modifying production infrastructure should not carry identical approval requirements. High-risk actions may need independent checks, strict permissions, trace records, and human authorization.
 
-Authors: Asaf Yehudai, Lilach Eden, Alan Li, Guy Uziel, Yilun Zhao, Roy Bar-Haim, Arman Cohan, and Michal Shmueli-Scheuer
-Publication: Findings of ACL 2026, July 2026
-Reference: "ACL Anthology" (https://aclanthology.org/2026.findings-acl.1330/)
+**Connection to this project:** Extends evaluation and safety into evidence-based assurance for consequential applications.
 
-This survey examines the rapidly developing field of LLM-agent evaluation.
+### 6.6 Bilal et al. — Large Language Models for Agentic NetOps and AIOps
 
-Traditional language-model benchmarks commonly assess individual responses to predefined questions.
+**Paper:** https://arxiv.org/abs/2605.12729
 
-However, autonomous agents operate through sequences of decisions, tool invocations, observations, and actions.
+Network and IT operations provide a practical setting for agent engineering. Operational systems produce logs, alerts, metrics, incident records, and configuration histories. Agents can help interpret this information, investigate failures, recommend remediation, and coordinate controlled actions.
 
-A system may produce a plausible answer while failing to accomplish its actual objective.
+However, an incorrect configuration change can cause an outage or violate policy. Therefore, operational autonomy requires **bounded tool use, evidence traces, validation, approval mechanisms, monitoring, and rollback-aware execution**.
 
-For example, a coding agent may generate syntactically valid code that does not pass the required tests. Similarly, a web agent may complete several navigation steps but fail to submit the requested information correctly.
+An illustrative progression of autonomy is: observation → diagnosis → proposal → validation → authorized execution. Each additional level of action authority requires corresponding safeguards.
 
-These examples illustrate why evaluating only the final text response is insufficient.
-
-The paper organizes agent evaluation into five perspectives.
-
-1. Core Agent Capabilities
-
-Evaluation of capabilities required for agentic workflows, including planning, tool use, self-reflection, and memory.
-
-2. Application-Specific Benchmarks
-
-Evaluation within specific domains such as software engineering, web navigation, scientific research, and conversational applications.
-
-3. Generalist-Agent Evaluation
-
-Assessment of systems intended to operate across multiple task categories and environments.
-
-4. Benchmark Dimensions
-
-Analysis of the properties that make an evaluation meaningful, including task structure, interaction requirements, and measurement methodology.
-
-5. Evaluation Frameworks and Tools
-
-Review of tools that support agent testing and performance analysis during development.
-
-Key Research Gap
-
-A successful final outcome does not necessarily imply an efficient or reliable execution process.
-
-Two agents may complete the same task while using very different numbers of tool calls, consuming different amounts of computation, or exposing their environments to different risks.
-
-For this reason, modern evaluation should consider multiple performance dimensions rather than relying on a single success percentage.
-
-Importance to This Project
-
-This paper provides the measurement framework required to determine whether a proposed harness or agent architecture is genuinely effective.
-
-It connects architectural design decisions to measurable results.
+**Connection to this project:** Demonstrates how the preceding architectural and trustworthiness principles translate into real operational constraints.
 
 ---
 
-Paper 3: Towards Trustworthy Agentic AI
+## 7. Technical Taxonomy: The Agent Execution Harness
 
-Authors: Jinhu Qi et al.
-Publication: May 17, 2026
-Reference: "arXiv:2605.23989" (https://arxiv.org/abs/2605.23989)
+A useful conceptual model is:
 
-As AI systems become more autonomous, traditional model-level safety mechanisms become insufficient.
+```text
+Agent System = Foundation Model + Execution Harness + Environment Interaction
+```
 
-A conventional chatbot may generate an incorrect or inappropriate response.
+The model proposes decisions and actions. The harness coordinates their controlled execution. The environment returns observations that inform later decisions.
 
-An agent with external tool permissions may be capable of executing actions that affect files, applications, networks, or other systems.
+### 7.1 Six Harness Responsibilities
 
-Consequently, the risks associated with agentic systems extend beyond language generation.
+| Component | Responsibility | Example |
+|---|---|---|
+| Observation | Collect information from the environment | Repository files, logs, API responses |
+| Context | Select and organize information for the model | Retrieval, summarization, context compression |
+| Control | Manage loops, plans, retries, and stopping conditions | Replan after failed execution |
+| Action | Invoke tools through controlled interfaces | Run tests or authorized APIs |
+| State | Preserve intermediate results and artifacts | Checkpoints, task history, modified files |
+| Verification | Check whether results satisfy requirements | Tests, validators, policy checks |
 
-This survey organizes trustworthiness around two principal dimensions:
+**Governance** spans these components through permissions, policies, monitoring, and escalation rules.
 
-Safety and Robustness
+### 7.2 Example: Repairing a Software Defect
 
-This dimension considers whether an agent behaves reliably under changing conditions, respects constraints, and avoids unsafe outcomes.
+1. **Observe:** Inspect repository files and failing tests.
+2. **Construct context:** Retrieve the relevant functions and issue details.
+3. **Plan:** Propose a repair strategy.
+4. **Act:** Modify files through authorized tools.
+5. **Verify:** Run tests and inspect failures.
+6. **Update state:** Record changes and execution results.
+7. **Recover or complete:** Retry with new evidence, escalate, or finish when requirements are satisfied.
 
-Examples include failures in multi-step planning, unexpected environmental changes, and the accumulation of errors across long-running workflows.
+The harness is what makes this a repeatable, inspectable workflow instead of a single code-generation response.
 
-Privacy and System Security
+---
 
-This dimension examines risks associated with sensitive information, tool interfaces, external data, memory systems, and execution privileges.
+## 8. Benchmark Evidence: Why the Harness Matters
 
-The survey highlights how malicious or untrusted information encountered during an agent workflow can influence subsequent decisions.
+### 8.1 SWE-bench Verified
 
-Trajectory-Level Failure
+SWE-bench Verified contains 500 human-validated software-engineering issue-resolution tasks. Agents must produce repository-level fixes that satisfy the benchmark's checks.
 
-One important concern is that unsafe behavior may develop gradually over a sequence of interactions.
+### 8.2 Reported Model–Harness Comparison
 
-An agent might initially perform legitimate actions, encounter misleading information, incorporate that information into its context, and later make an unsafe decision.
+The Guo et al. survey compiles the following results for systems reported using Claude 3.5 Sonnet:
 
-The final failure may therefore originate several steps before the harmful action occurs.
+| Model | Harness | Resolved | Resolution Rate |
+|---|---|---:|---:|
+| Claude 3.5 Sonnet | SWE-agent | 168 / 500 | 33.6% |
+| Claude 3.5 Sonnet | SWE-agent + Tools | 245 / 500 | 49.0% |
+| Claude 3.5 Sonnet | Agentless | 254 / 500 | 50.8% |
+| Claude 3.5 Sonnet | AutoCodeRover | 259 / 500 | 51.8% |
+| Claude 3.5 Sonnet | OpenHands + CodeAct 2.1 | 265 / 500 | 53.0% |
+| Claude 3.5 Sonnet | PatchPilot | 268 / 500 | 53.6% |
 
-This requires safety evaluation that examines the complete execut
+**Source:** Guo et al., [arXiv:2606.20683](https://arxiv.org/abs/2606.20683), SWE-bench Verified comparison.
+
+The spread is **20 percentage points**, corresponding to **100 additional resolved issues** between the lowest and highest reported entries on a 500-task benchmark.
+
+**Interpretation caveat:** These are compiled cross-system results, not necessarily a perfectly controlled harness-only ablation. Model snapshots, execution budgets, prompting, retries, and experimental configurations may differ. The evidence illustrates the importance of system design without proving that harness differences alone explain the entire spread.
+
+### 8.3 Implications
+
+- Record model versions and harness configurations when reporting benchmarks.
+- Compare tool interfaces, validation loops, and context handling, not just model names.
+- Consider cost, latency, and reliability alongside completion rate.
+- Avoid treating one leaderboard score as universal evidence of superiority.
+
+---
+
+## 9. Evaluation Beyond Task Success
+
+A binary success score cannot fully characterize a multi-step agent. A system may finish a task while wasting resources, taking unsafe intermediate actions, or requiring repeated failures before recovery.
+
+| Dimension | What It Measures | Illustrative Metric |
+|---|---|---|
+| Task success | Completion of the requested objective | Success rate |
+| Efficiency | Resources consumed | Tokens, tool calls, latency, cost |
+| Reliability | Consistency across similar runs | Repeated-run success |
+| Robustness | Behavior under perturbation | Recovery rate |
+| Safety | Respect for operational constraints | Constraint violations |
+| Process quality | Quality and traceability of the trajectory | Invalid actions, trace completeness |
+| Security | Resistance to untrusted inputs and unauthorized access | Unauthorized-action rate |
+| Generalization | Performance across tasks and environments | Cross-domain success |
+
+**Outcome metrics** evaluate what was achieved; **process metrics** evaluate how it was achieved. Long-horizon tasks especially require trajectory inspection because an early mistake may affect many later steps.
+
+---
+
+## 10. Safety, Security, and Isolation
+
+Connecting a model to tools changes the consequences of mistakes. Incorrect text may become an incorrect file modification, API call, or infrastructure action.
+
+| Failure Category | Description | Engineering Response |
+|---|---|---|
+| Prompt injection | Untrusted content attempts to redirect behavior | Separate instructions from data |
+| Tool misuse | Inappropriate tool invocation | Permission controls and validation |
+| Memory poisoning | Incorrect or malicious information persists | Provenance and state-integrity checks |
+| Cross-agent contamination | Unsafe information propagates between agents | Inter-agent isolation |
+| Unsafe execution | Proposed actions affect restricted resources | Sandboxing and authorization |
+| Context manipulation | Misleading external information affects decisions | Source validation and trust boundaries |
+
+### 10.1 Defense in Depth
+
+No single instruction or safety filter can provide every guarantee. A stronger design combines restricted permissions, sandboxing, action validation, resource limits, monitoring, human 
